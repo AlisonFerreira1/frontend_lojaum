@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --image: url('/backgroundinfi.png');
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--image);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.Navbarcustom {
+ @apply flex items-center justify-between p-1 font-sans dark:bg-green-900 text-white;
+}
+#mainpage{
+  @apply flex flex-1 w-full h-500 max-w-3xl  flex-col items-center bg-cover bg-center bg-no-repeat  py-32 px-16  sm:items-start;
+}
+/* Custom styles for the navbar items */
+.cart-icon{
+  @apply text-white p-2 rounded-full;
+}
+.logo {
+  @apply border-2 border-none p-2 rounded-3xl;
+}
+.options {
+  @apply flex flex-row justify-between items-center w-100 text-xl  bg-cover bg-center text-white p-2 rounded-3xl;
+}
+/* Custom styles for the main section content */
+.layoutmain {
+  @apply flex items-center justify-center content-center ;
+}
+.info{
+  @apply flex flex-col border-2 rounded-3xl w-[50%] h-50 border-green-800 bg-[#0d542b] items-center text-center text-white;
+}
