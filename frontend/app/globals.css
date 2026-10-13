@@ -4,6 +4,7 @@
   --background: #ffffff;
   --foreground: #171717;
   --image: url('/backgroundinfi.png');
+  --text-colormain: #fef1d3;
 }
 
 @theme inline {
@@ -25,26 +26,61 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
-.Navbarcustom {
- @apply flex items-center justify-between p-1 font-sans dark:bg-green-900 text-white;
-}
-#mainpage{
-  @apply flex flex-1 w-full h-500 max-w-3xl  flex-col items-center bg-cover bg-center bg-no-repeat  py-32 px-16  sm:items-start;
-}
 /* Custom styles for the navbar items */
-.cart-icon{
-  @apply text-white p-2 rounded-full;
+.Navbarcustom {
+  @apply flex items-center justify-between p-0.5 border-b-3 border-red-400 font-sans dark:bg-green-900 px-10
+  ;
 }
+.iconsoptions {
+  @apply flex flex-row gap-3 items-center justify-center text-[var(--text-colormain)] ;
+}
+
 .logo {
   @apply border-2 border-none p-2 rounded-3xl;
 }
 .options {
-  @apply flex flex-row justify-between items-center w-100 text-xl  bg-cover bg-center text-white p-2 rounded-3xl;
+  @apply flex flex-row justify-between items-center w-100 text-2xl  bg-cover 
+  bg-center p-2 rounded-3xl text-[var(--text-colormain)];
 }
 /* Custom styles for the main section content */
-.layoutmain {
-  @apply flex items-center justify-center content-center ;
+#layoutmain {
+  @apply flex flex-row m-20 justify-center content-center;
 }
 .info{
-  @apply flex flex-col border-2 rounded-3xl w-[50%] h-50 border-green-800 bg-[#0d542b] items-center text-center text-white;
+  @apply flex flex-row gap-15 w-220 h-100 p-5 border-3 border-red-400 rounded-3xl 
+  text-center text-white bg-[#0d542b] items-center justify-center  content-center ;
+}
+.description{
+  @apply flex flex-col gap-5 text-[var(--text-colormain)] ;
+}
+.title{
+  @apply text-3xl font-bold mb-4;
+}
+.maindescription{
+  @apply text-lg text-justify;
+}
+.footerdescription{
+  @apply italic text-justify;
+}
+/* Custom styles for the localization page */
+.informations{
+  @apply flex flex-row m-10 justify-center content-center;
+}
+#descriptionInformation {
+  @apply grid grid-cols-2 grid-rows-2 border-3 rounded-2xl border-red-400 bg-[#0d542b] w-215 p-5 gap-5;
+}
+.sectionLocalizacao {
+  @apply col-span-2 row-span-1 border-b-3 border-red-400 pb-5 ;
+}
+.sectionContato, .sectionSobre {
+  @apply col-span-1 row-span-1 px-5 ;
+}
+.sectionContato,.sectionSobre,.sectionLocalizacao{
+  @apply flex flex-col justify-between items-center content-center  gap-2 text-[var(--text-colormain)] ;
+}
+.titleinformation{
+  @apply text-2xl;
+}
+.destaque{
+  @apply text-xs italic;
 }
