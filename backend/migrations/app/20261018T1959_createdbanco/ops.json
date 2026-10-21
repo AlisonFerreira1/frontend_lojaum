@@ -1,0 +1,851 @@
+[
+  {
+    "id": "renameTable.Typeuser",
+    "label": "Rename table \"Typeuser\" to \"role\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "role"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Typeuser\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Typeuser\""
+        ]
+      },
+      {
+        "description": "ensure table \"role\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"role\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "rename table \"Typeuser\" to \"role\"",
+        "sql": "ALTER TABLE \"public\".\"Typeuser\" RENAME TO \"role\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"role\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"role\""
+        ]
+      },
+      {
+        "description": "verify table \"Typeuser\" no longer exists",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Typeuser\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "primaryKey.public.role.Typeuser_pkey.rename",
+    "label": "Rename primary key \"Typeuser_pkey\" to \"role_pkey\" on \"role\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "primaryKey",
+        "name": "role_pkey",
+        "table": "role"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Typeuser_pkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Typeuser_pkey",
+          "public",
+          "\"public\".\"role\""
+        ]
+      },
+      {
+        "description": "ensure constraint \"role_pkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "role_pkey",
+          "public",
+          "\"public\".\"role\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "rename primary key \"Typeuser_pkey\" to \"role_pkey\"",
+        "sql": "ALTER TABLE \"public\".\"role\" RENAME CONSTRAINT \"Typeuser_pkey\" TO \"role_pkey\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"role_pkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "role_pkey",
+          "public",
+          "\"public\".\"role\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "renameColumn.role.role",
+    "label": "Rename column \"role\".\"role\" to \"type\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "type",
+        "table": "role"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"role\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "role",
+          "role"
+        ]
+      },
+      {
+        "description": "ensure column \"type\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "role",
+          "type"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "rename column \"role\" to \"type\"",
+        "sql": "ALTER TABLE \"public\".\"role\" RENAME COLUMN \"role\" TO \"type\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"type\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "role",
+          "type"
+        ]
+      },
+      {
+        "description": "verify column \"role\" no longer exists",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "role",
+          "role"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.info",
+    "label": "Create table \"info\"",
+    "summary": "Creates table \"info\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "info"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"info\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"info\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"info\"",
+        "sql": "CREATE TABLE \"public\".\"info\" (\n  \"address\" text,\n  \"email\" text,\n  \"id\" SERIAL NOT NULL,\n  \"link_local\" text,\n  \"name\" text,\n  \"phone\" text,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"info\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"info\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.itens_order",
+    "label": "Create table \"itens_order\"",
+    "summary": "Creates table \"itens_order\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "itens_order"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"itens_order\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"itens_order\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"itens_order\"",
+        "sql": "CREATE TABLE \"public\".\"itens_order\" (\n  \"id\" SERIAL NOT NULL,\n  \"id_menu\" int4 NOT NULL,\n  \"id_order\" int4 NOT NULL,\n  \"menu_item\" text NOT NULL,\n  \"quantity\" int4 NOT NULL,\n  \"unit_price\" numeric NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"itens_order\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"itens_order\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.menu",
+    "label": "Create table \"menu\"",
+    "summary": "Creates table \"menu\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "menu"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"menu\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"menu\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"menu\"",
+        "sql": "CREATE TABLE \"public\".\"menu\" (\n  \"description\" text,\n  \"id\" SERIAL NOT NULL,\n  \"item\" text NOT NULL,\n  \"price\" numeric NOT NULL,\n  \"status\" bool DEFAULT true NOT NULL,\n  \"updated_at\" timestamptz NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"menu\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"menu\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.order_buy",
+    "label": "Create table \"order_buy\"",
+    "summary": "Creates table \"order_buy\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "order_buy"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"order_buy\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"order_buy\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"order_buy\"",
+        "sql": "CREATE TABLE \"public\".\"order_buy\" (\n  \"address\" text NOT NULL,\n  \"created_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"id_user\" int4 NOT NULL,\n  \"pricefull\" numeric NOT NULL,\n  \"status\" text NOT NULL,\n  \"updated_at\" timestamptz NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"order_buy_status_check_37b4e426\" CHECK (\"status\" IN ('pedido aberto', 'pedido em produção', 'pedido em transporte', 'pedido entregue'))\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"order_buy\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"order_buy\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.user_p",
+    "label": "Create table \"user_p\"",
+    "summary": "Creates table \"user_p\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "user_p"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"user_p\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"user_p\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"user_p\"",
+        "sql": "CREATE TABLE \"public\".\"user_p\" (\n  \"email\" text NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"id_role\" int4 NOT NULL,\n  \"name\" text NOT NULL,\n  \"name_user\" text NOT NULL,\n  \"password\" text NOT NULL,\n  \"updated_at\" timestamptz NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"user_p\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"user_p\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.menu.menu_item_key",
+    "label": "Add unique constraint on \"menu\" (item)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "menu_item_key",
+        "table": "menu"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"menu_item_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "menu_item_key",
+          "public",
+          "\"public\".\"menu\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"menu_item_key\"",
+        "sql": "ALTER TABLE \"public\".\"menu\" ADD CONSTRAINT \"menu_item_key\" UNIQUE (\"item\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"menu_item_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "menu_item_key",
+          "public",
+          "\"public\".\"menu\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.role.role_type_key",
+    "label": "Add unique constraint on \"role\" (type)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "role_type_key",
+        "table": "role"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"role_type_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "role_type_key",
+          "public",
+          "\"public\".\"role\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"role_type_key\"",
+        "sql": "ALTER TABLE \"public\".\"role\" ADD CONSTRAINT \"role_type_key\" UNIQUE (\"type\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"role_type_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "role_type_key",
+          "public",
+          "\"public\".\"role\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.user_p.user_p_name_user_key",
+    "label": "Add unique constraint on \"user_p\" (name_user)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "user_p_name_user_key",
+        "table": "user_p"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"user_p_name_user_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_p_name_user_key",
+          "public",
+          "\"public\".\"user_p\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"user_p_name_user_key\"",
+        "sql": "ALTER TABLE \"public\".\"user_p\" ADD CONSTRAINT \"user_p_name_user_key\" UNIQUE (\"name_user\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"user_p_name_user_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_p_name_user_key",
+          "public",
+          "\"public\".\"user_p\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.user_p.user_p_email_key",
+    "label": "Add unique constraint on \"user_p\" (email)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "user_p_email_key",
+        "table": "user_p"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"user_p_email_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_p_email_key",
+          "public",
+          "\"public\".\"user_p\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"user_p_email_key\"",
+        "sql": "ALTER TABLE \"public\".\"user_p\" ADD CONSTRAINT \"user_p_email_key\" UNIQUE (\"email\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"user_p_email_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_p_email_key",
+          "public",
+          "\"public\".\"user_p\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.itens_order.itens_order_id_menu_idx_7979de98",
+    "label": "Create index \"itens_order_id_menu_idx_7979de98\" on \"itens_order\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "itens_order_id_menu_idx_7979de98",
+        "table": "itens_order"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"itens_order_id_menu_idx_7979de98\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"itens_order_id_menu_idx_7979de98\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"itens_order_id_menu_idx_7979de98\"",
+        "sql": "CREATE INDEX \"itens_order_id_menu_idx_7979de98\" ON \"public\".\"itens_order\" (\"id_menu\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"itens_order_id_menu_idx_7979de98\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"itens_order_id_menu_idx_7979de98\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.itens_order.itens_order_id_order_idx_09f94ded",
+    "label": "Create index \"itens_order_id_order_idx_09f94ded\" on \"itens_order\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "itens_order_id_order_idx_09f94ded",
+        "table": "itens_order"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"itens_order_id_order_idx_09f94ded\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"itens_order_id_order_idx_09f94ded\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"itens_order_id_order_idx_09f94ded\"",
+        "sql": "CREATE INDEX \"itens_order_id_order_idx_09f94ded\" ON \"public\".\"itens_order\" (\"id_order\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"itens_order_id_order_idx_09f94ded\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"itens_order_id_order_idx_09f94ded\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.order_buy.order_buy_id_user_idx_52684e74",
+    "label": "Create index \"order_buy_id_user_idx_52684e74\" on \"order_buy\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "order_buy_id_user_idx_52684e74",
+        "table": "order_buy"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"order_buy_id_user_idx_52684e74\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"order_buy_id_user_idx_52684e74\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"order_buy_id_user_idx_52684e74\"",
+        "sql": "CREATE INDEX \"order_buy_id_user_idx_52684e74\" ON \"public\".\"order_buy\" (\"id_user\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"order_buy_id_user_idx_52684e74\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"order_buy_id_user_idx_52684e74\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.user_p.user_p_id_role_idx_6c4da109",
+    "label": "Create index \"user_p_id_role_idx_6c4da109\" on \"user_p\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "user_p_id_role_idx_6c4da109",
+        "table": "user_p"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"user_p_id_role_idx_6c4da109\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"user_p_id_role_idx_6c4da109\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"user_p_id_role_idx_6c4da109\"",
+        "sql": "CREATE INDEX \"user_p_id_role_idx_6c4da109\" ON \"public\".\"user_p\" (\"id_role\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"user_p_id_role_idx_6c4da109\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"user_p_id_role_idx_6c4da109\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.itens_order.itens_order_id_menu_fkey",
+    "label": "Add foreign key \"itens_order_id_menu_fkey\" on \"itens_order\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "itens_order_id_menu_fkey",
+        "table": "itens_order"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"itens_order_id_menu_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "itens_order_id_menu_fkey",
+          "public",
+          "\"public\".\"itens_order\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"itens_order_id_menu_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"itens_order\"\nADD CONSTRAINT \"itens_order_id_menu_fkey\"\nFOREIGN KEY (\"id_menu\")\nREFERENCES \"public\".\"menu\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"itens_order_id_menu_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "itens_order_id_menu_fkey",
+          "public",
+          "\"public\".\"itens_order\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.itens_order.itens_order_id_order_fkey",
+    "label": "Add foreign key \"itens_order_id_order_fkey\" on \"itens_order\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "itens_order_id_order_fkey",
+        "table": "itens_order"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"itens_order_id_order_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "itens_order_id_order_fkey",
+          "public",
+          "\"public\".\"itens_order\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"itens_order_id_order_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"itens_order\"\nADD CONSTRAINT \"itens_order_id_order_fkey\"\nFOREIGN KEY (\"id_order\")\nREFERENCES \"public\".\"order_buy\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"itens_order_id_order_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "itens_order_id_order_fkey",
+          "public",
+          "\"public\".\"itens_order\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.order_buy.order_buy_id_user_fkey",
+    "label": "Add foreign key \"order_buy_id_user_fkey\" on \"order_buy\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "order_buy_id_user_fkey",
+        "table": "order_buy"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"order_buy_id_user_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "order_buy_id_user_fkey",
+          "public",
+          "\"public\".\"order_buy\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"order_buy_id_user_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"order_buy\"\nADD CONSTRAINT \"order_buy_id_user_fkey\"\nFOREIGN KEY (\"id_user\")\nREFERENCES \"public\".\"user_p\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"order_buy_id_user_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "order_buy_id_user_fkey",
+          "public",
+          "\"public\".\"order_buy\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.user_p.user_p_id_role_fkey",
+    "label": "Add foreign key \"user_p_id_role_fkey\" on \"user_p\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "user_p_id_role_fkey",
+        "table": "user_p"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"user_p_id_role_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_p_id_role_fkey",
+          "public",
+          "\"public\".\"user_p\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"user_p_id_role_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"user_p\"\nADD CONSTRAINT \"user_p_id_role_fkey\"\nFOREIGN KEY (\"id_role\")\nREFERENCES \"public\".\"role\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"user_p_id_role_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_p_id_role_fkey",
+          "public",
+          "\"public\".\"user_p\""
+        ]
+      }
+    ]
+  }
+]

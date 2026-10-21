@@ -1,0 +1,76 @@
+// use prisma-8
+
+model role {
+  id        Int      @id @default(autoincrement())
+  type      String   @unique
+  user      user_p[]
+}
+
+enum status {
+  @@type("pg/text@1")
+  Aberto = "pedido aberto"
+  Andamento = "pedido em produção"
+  Transporte = "pedido em transporte"
+  Concluido = "pedido entregue"
+}
+
+model user_p {
+  id          Int      @id @default(autoincrement())
+  id_role     Int
+  name        String
+  name_user   String   @unique
+  email       String   @unique
+  password    String
+  updated_at  DateTime  
+  
+  order       order_buy[]
+  role role @relation(fields: [id_role], references: [id])
+  @@index([id_role])
+}
+
+model menu {
+  id          Int      @id @default(autoincrement())
+  item        String   @unique
+  description String?
+  price       Decimal
+  status      Boolean  @default(true)
+  updated_at  DateTime  
+
+  item_order itens_order[]
+}
+
+model order_buy {
+  id          Int      @id @default(autoincrement())
+  id_user      Int
+  pricefull   Decimal
+  created_at  DateTime @default(now())
+  updated_at  DateTime 
+  status      status
+  address     String
+
+  item_order itens_order[]
+  user   user_p @relation(fields: [id_user], references:[id])
+  @@index([id_user])
+}
+
+model itens_order {
+  id          Int      @id @default(autoincrement())
+  id_order    Int
+  id_menu     Int
+  menu_item   String 
+  unit_price  Decimal 
+  quantity    Int
+
+  menu menu @relation(fields: [id_menu],references: [id])
+  order order_buy @relation(fields: [id_order],references: [id])
+  @@index([id_order])
+  @@index([id_menu])
+}
+model info {
+  id          Int      @id @default(autoincrement())
+  name        String?
+  email       String?
+  phone       String?
+  address     String?
+  link_local  String? 
+}
