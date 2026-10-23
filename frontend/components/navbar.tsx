@@ -4,12 +4,12 @@ import Link from "next/link";
 export default function Navbar() {
     return (
         <section className="Navbarcustom">
-            <Link href="/">
+            <Link href="/home">
                 <Image src="/logobattships.png" alt="Logo" width={80} height={50} loading="eager" className="logo" />
             </Link>
             <div className="options">
-                <Link href="/router/menu">Cardapio</Link>
-                <Link href="/router/about">Informações</Link>
+                <Link href="/menu">Cardapio</Link>
+                <Link href="/about">Informações</Link>
             </div>
             <div className="iconsoptions">     
                 <button>

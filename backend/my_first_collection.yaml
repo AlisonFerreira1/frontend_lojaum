@@ -1,0 +1,136 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: battatiships
+meta:
+  id: wrk_da7e300094c24a81b71d1e4872269b5c
+  created: 1792609201711
+  modified: 1792609362267
+  description: ""
+collection:
+  - url: localhost:3000/
+    name: created
+    meta:
+      id: req_59c8325959a6461aa83b964899a7c89b
+      created: 1792609201717
+      modified: 1792610461928
+      isPrivate: false
+      description: ""
+      sortKey: -1792609201717
+    method: GET
+    authentication:
+      type: basic
+      useISO88591: false
+      username: ""
+      password: ""
+      disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: ""
+    name: New Event Stream
+    meta:
+      id: req_5c8587bfc58340f5829bf9e23ca4b5ec
+      created: 1792609525377
+      modified: 1792609525377
+      isPrivate: false
+      description: ""
+      sortKey: -1792609525377
+    method: GET
+    headers:
+      - name: Accept
+        value: text/event-stream
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: ""
+    name: New Request
+    meta:
+      id: req_c1dc887dc0d2473b95e538ca63a9c834
+      created: 1792609534370
+      modified: 1792609534370
+      isPrivate: false
+      description: ""
+      sortKey: -1792609534370
+    method: POST
+    body:
+      mimeType: application/graphql
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: ""
+    name: New WebSocket Request
+    meta:
+      id: ws-req_73703c0635894863abfd1aff3ab37db4
+      created: 1792609540688
+      modified: 1792609541581
+      description: ""
+      sortKey: -1792609540689
+    settings:
+      encodeUrl: true
+      cookies:
+        store: true
+        send: true
+      followRedirects: global
+  - url: ""
+    name: New Socket.IO Request
+    meta:
+      id: socketio-req_4508db8c3dae49aea37f0a7189226a1b
+      created: 1792609543030
+      modified: 1792609543854
+      description: ""
+      sortKey: -1792609543030
+    settings:
+      encodeUrl: true
+      cookies:
+        store: true
+        send: true
+  - url: ""
+    name: New Request
+    meta:
+      id: greq_54ce3064d360453ebcd9a4e4fca15015
+      created: 1792609538239
+      modified: 1792609538239
+      isPrivate: false
+      description: ""
+      sortKey: -1792609538239
+    body:
+      text: "{}"
+    protoFileId: ""
+    protoMethodName: ""
+    reflectionApi:
+      enabled: false
+      url: https://buf.build
+      apiKey: ""
+      module: buf.build/connectrpc/eliza
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_4910c00356b7dd80684a1428a7303e7270b21424
+    created: 1792609201715
+    modified: 1792609201715
+environments:
+  name: Base Environment
+  meta:
+    id: env_4910c00356b7dd80684a1428a7303e7270b21424
+    created: 1792609201714
+    modified: 1792609201714
+    isPrivate: false

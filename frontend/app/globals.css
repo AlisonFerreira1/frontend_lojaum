@@ -5,9 +5,16 @@
   --foreground: #171717;
   --image: url('/backgroundinfi.png');
   --text-colormain: #fef1d3;
+  --color-primary: #fef1d3;
+  --color-secondary: #0d542b;
+  --color-tertiary: #fe6467;
+  --color-bg: #6f902f;
+  --color-input: #127a3e;
+  --color-houver: #0a4724;
 }
 
 @theme inline {
+  --color-varprimary: var(--color-primary);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -26,10 +33,63 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+/* Custom styles for the login screen */
+#layoutlogin{
+  @apply h-full text-white flex justify-center content-center items-center;
+}
+.layoutloginsec{
+  @apply flex flex-row bg-[var(--color-secondary)] border-solid border-[var(--color-tertiary)] border-2 rounded-4xl ;
+  
+  #login-left, #login-right{
+    @apply flex flex-col gap-8 items-center p-5;
+  }
+  #login-left{
+    @apply border-solid border-[var(--color-tertiary)] border-r-2 rounded-2xl;
+  
+    span{
+      @apply text-2xl text-justify;
+    } 
+    .layouttitle{
+      @apply flex flex-row gap-5;
+
+      img{
+        @apply rounded-2xl
+      }
+    }
+    .layoutinput{
+      @apply flex flex-col items-center pb-2 gap-5 border-solid border-b-2  border-[var(--color-tertiary)];
+      
+      input{
+        @apply bg-[var(--color-input)] h-10 w-80 rounded-2xl p-2 focus:border-[var(--color-primary)] focus:outline focus:outline-[var(--color-primary)]  ;
+      }
+      a{
+        @apply hover:text-gray-400 hover:underline text-sm;
+      }
+      .layoutinputbox{
+        @apply flex flex-row w-full justify-between;
+
+        label{
+          @apply flex flex-row gap-2 text-sm content-center;
+
+          input{
+            @apply h-4 w-4;
+          }
+        }
+      }
+    }
+
+    #loginbutton{
+      @apply bg-[var(--color-input)] text-white cursor-pointer p-2 w-25 focus:border-[var(--color-primary)] focus:outline focus:outline-[var(--color-primary)]  rounded-2xl hover:bg-[var(--color-houver)];
+    }
+
+  }
+  #login-right{
+    @apply w-90 ; 
+  }
+}
 /* Custom styles for the navbar items */
 .Navbarcustom {
-  @apply flex items-center justify-between p-0.5 border-b-3 border-red-400 font-sans dark:bg-green-900 px-10
-  ;
+  @apply flex items-center justify-between p-0.5 border-b-3 border-red-400 font-sans dark:bg-green-900 px-10;
 }
 .iconsoptions {
   @apply flex flex-row gap-3 items-center justify-center text-[var(--text-colormain)] ;
