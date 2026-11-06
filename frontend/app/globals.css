@@ -15,6 +15,9 @@
 
 @theme inline {
   --color-varprimary: var(--color-primary);
+  --color-varsecondary: var(--color-secondary);
+  --color-vartertiary: var(--color-tertiary);
+  --color-varbg: var(--color-bg);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -60,6 +63,7 @@ body {
 .layoutloginsec, .layoutcreated{
   @apply absolute z-0;
 }
+
 .zlayoutfront{
   @apply z-1;
 }
@@ -169,4 +173,79 @@ body {
 }
 .destaque{
   @apply text-xs italic;
+}
+/* Custom styles for the dashboard page */
+#layoutdashboard, #layoutform{
+  @apply flex flex-row  ;
+}
+#layoutdashboard{
+  @apply h-screen items-center content-center justify-center scrollbar-none;
+}
+#layoutform{
+  @apply border-solid border-2 h-100 border-[var(--color-tertiary)] rounded-2xl bg-[var(--color-tertiary)] ;
+}
+#forms{
+  @apply bg-[var(--color-bg)] rounded-2xl p-5;
+}
+.formulario{
+  @apply grid grid-cols-[160px_260px] grid-rows-3 gap-6 ;
+}
+.inputpreco{
+  @apply col-span-1 bg-(--color-secondary) rounded-3xl p-2;
+}
+.inputimadiv, .inputpreco, .inputnome {
+  @apply flex justify-center content-center items-center gap-1;
+}
+.inputimgdiv{
+  @apply row-span-3 flex justify-center content-center items-center;
+}
+.inputnome{
+  @apply bg-(--color-secondary) rounded-3xl p-2;
+}
+.inputimg{
+  @apply h-full w-40 bg-(--color-secondary) rounded-2xl;
+}
+.inputstatus{
+  @apply col-span-1 row-span-1 bg-(--color-secondary) rounded-3xl p-2;
+}
+.inputdescricao{
+  @apply col-span-2 row-span-1 bg-(--color-secondary) rounded-3xl p-2 ;
+
+  textarea{
+    @apply w-full;
+  }
+}
+.botaocadastroitem{
+  @apply col-span-2 row-span-1 bg-(--color-secondary) p-3 rounded-3xl;
+}
+#listf{
+  @apply p-2 w-120 ;
+  
+  .layoutlist{
+    @apply scrollbar-thin scrollbar-thumb-varbg  overflow-auto h-95 flex flex-col gap-2;
+
+    .menulist{
+      @apply grid grid-cols-3 grid-rows-[repeat(3,auto)] gap-3 h-39 relative bg-varprimary text-black rounded-xl p-2 border-solid border-2 border-(--color-bg);
+      
+      .botaocadastroitem{
+        @apply absolute top-2 left-40 bg-vartertiary text-white p-1 rounded-lg cursor-pointer hover:bg-varsecondary; ;
+      }
+      .statuscard{
+        @apply absolute bg-varbg text-white p-1 rounded-lg top-2 right-4 ;
+      }
+      .imgitem{
+        @apply rounded-2xl bg-varbg row-span-3 col-span-1 p-2;
+      }
+      h1{
+        @apply col-span-2 row-span-1 justify-center flex text-lg ;
+      }
+      .descrisao{
+        @apply text-sm text-justify text-black col-span-2 row-span-1;
+      }
+      .preco{
+        @apply col-span-1 row-span-1;
+      }
+     
+    }
+  }
 }
